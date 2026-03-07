@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meu Controle</title>
+
+  <!-- PWA / Android -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#4F46E5" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Meu Controle" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@19/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@19/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    .progress-bar { transition: width 0.5s ease; }
+    @keyframes pulse-warn { 0%,100%{opacity:1} 50%{opacity:.7} }
+    .pulse-warn { animation: pulse-warn 1.5s infinite; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const BIN_ID = "6928a3d243b1c97be9c93278";
+    const API_KEY = "$2a$10$GdYgL/jUBR4DCMQziNCkxeyVyT9ekinkH2KjvIZBecyAoBlANiTEq";
+
+    // ── Icons ──────────────────────────────────────────────
+    const Icon = ({ d, cls = "w-5 h-5" }) => (
+      <svg className={cls} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={d} />
+      </svg>
+    );
+    const IC = {
+      dollar:   "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
+      chart:    "M13 17h8m0 0V9m0 8l-8-8-4 4-6-6",
+      calendar: "M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z",
+      pie:      "M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z",
+      trash:    "M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16",
+      reset:    "M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6",
+      moon:     "M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z",
+      sun:      "M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z",
+      logout:   "M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1",
+      download: "M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4",
+      clock:    "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z",
+      target:   "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
+      edit:     "M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z",
+    };
+
+    // ── JSONBin helpers ────────────────────────────────────
+    async function loadCloud() {
+      try {
+        const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+          headers: { "X-Master-Key": API_KEY }
+        });
+        if (r.ok) return (await r.json()).record || { users: {} };
+      } catch {}
+      return { users: {} };
+    }
+
+    async function saveCloud(data) {
+      const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", "X-Master-Key": API_KEY },
+        body: JSON.stringify(data)
+      });
+      if (!r.ok) throw new Error("Erro ao salvar");
+      return r.json();
+    }
+
+    // ── Goal Progress Bar ──────────────────────────────────
+    function GoalMeter({ total, goal, dark }) {
+      if (!goal || goal <= 0) return null;
+      const pct = Math.min((total / goal) * 100, 100);
+      const over = total > goal;
+      const overPct = over ? ((total - goal) / goal * 100).toFixed(1) : null;
+
+      let barColor, bgColor, textColor, label;
+      if (pct < 60) {
+        barColor = "bg-emerald-500"; bgColor = dark ? "bg-emerald-900/40" : "bg-emerald-50";
+        textColor = "text-emerald-600"; label = "✅ Dentro do limite";
+      } else if (pct < 85) {
+        barColor = "bg-yellow-400"; bgColor = dark ? "bg-yellow-900/40" : "bg-yellow-50";
+        textColor = "text-yellow-600"; label = "⚠️ Atenção!";
+      } else if (pct < 100) {
+        barColor = "bg-orange-500 pulse-warn"; bgColor = dark ? "bg-orange-900/40" : "bg-orange-50";
+        textColor = "text-orange-600"; label = "🚨 Quase no limite!";
+      } else {
+        barColor = "bg-red-600 pulse-warn"; bgColor = dark ? "bg-red-900/40" : "bg-red-50";
+        textColor = "text-red-600"; label = `🔴 Limite ULTRAPASSADO! +${overPct}%`;
+      }
+
+      return (
+        <div className={`${bgColor} rounded-xl p-4 mb-6 border-2 ${over ? "border-red-400" : "border-transparent"}`}>
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <Icon d={IC.target} cls="w-5 h-5 text-indigo-500" />
+              <span className={`font-semibold text-sm ${dark ? "text-gray-200" : "text-gray-700"}`}>Meta de Gastos</span>
+            </div>
+            <span className={`font-bold text-sm ${textColor}`}>{label}</span>
+          </div>
+
+          <div className={`w-full ${dark ? "bg-gray-700" : "bg-gray-200"} rounded-full h-5 relative overflow-hidden`}>
+            <div
+              className={`${barColor} h-5 rounded-full progress-bar flex items-center justify-end pr-2`}
+              style={{ width: `${pct}%` }}
+            >
+              {pct > 15 && <span className="text-white text-xs font-bold">{pct.toFixed(0)}%</span>}
+            </div>
+          </div>
+
+          <div className="flex justify-between mt-2 text-sm">
+            <span className={dark ? "text-gray-400" : "text-gray-500"}>
+              Gasto: <strong className={textColor}>R$ {total.toFixed(2)}</strong>
+            </span>
+            <span className={dark ? "text-gray-400" : "text-gray-500"}>
+              Meta: <strong className={dark ? "text-gray-200" : "text-gray-700"}>R$ {goal.toFixed(2)}</strong>
+            </span>
+          </div>
+
+          {over && (
+            <div className="mt-2 text-center">
+              <span className="text-red-500 font-bold text-sm">
+                Excedeu em R$ {(total - goal).toFixed(2)}
+              </span>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // ── Main App ───────────────────────────────────────────
+    function App() {
+      const [input, setInput]           = useState("");
+      const [dateInput, setDateInput]   = useState("");
+      const [expenses, setExpenses]     = useState([]);
+      const [msg, setMsg]               = useState("");
+      const [showReport, setShowReport] = useState(false);
+      const [cycleStart, setCycleStart] = useState(null);
+      const [dark, setDark]             = useState(false);
+      const [loggedIn, setLoggedIn]     = useState(false);
+      const [user, setUser]             = useState("");
+      const [loading, setLoading]       = useState(false);
+      const [emailInput, setEmailInput] = useState("");
+      const [passInput, setPassInput]   = useState("");
+      const [showDatePicker, setShowDatePicker] = useState(false);
+
+      // Goal state
+      const [goal, setGoal]             = useState(0);
+      const [goalInput, setGoalInput]   = useState("");
+      const [editingGoal, setEditingGoal] = useState(false);
+
+      const flash = (m) => { setMsg(m); setTimeout(() => setMsg(""), 3000); };
+
+      // ── Persist dark mode ──
+      useEffect(() => {
+        const d = localStorage.getItem("darkMode") === "true";
+        setDark(d);
+        const u = localStorage.getItem("currentUser");
+        if (u) { setUser(u); setLoggedIn(true); loadUser(u); }
+      }, []);
+
+      // ── Load user data ──
+      const loadUser = async (u) => {
+        setLoading(true);
+        try {
+          const db = await loadCloud();
+          if (db.users?.[u]) {
+            const ud = db.users[u];
+            setExpenses(ud.expenses || []);
+            setCycleStart(ud.cycleStart || new Date().toISOString());
+            setGoal(ud.monthlyGoal || 0);
+          } else {
+            const now = new Date().toISOString();
+            const db2 = { ...db, users: { ...db.users, [u]: { expenses: [], cycleStart: now, monthlyGoal: 0 } } };
+            await saveCloud(db2);
+            setCycleStart(now);
+            setExpenses([]);
+            setGoal(0);
+          }
+        } catch { flash("⚠️ Erro ao carregar dados."); }
+        finally { setLoading(false); }
+      };
+
+      // ── Login / Register ──
+      const doLogin = async (e) => {
+        if (e) e.preventDefault();
+        if (!emailInput.trim() || !passInput.trim()) { flash("⚠️ Preencha e-mail e senha"); return; }
+        setLoading(true);
+        try {
+          const db = await loadCloud();
+          if (db.users?.[emailInput]) {
+            if (db.users[emailInput].password === passInput) {
+              setUser(emailInput); setLoggedIn(true);
+              localStorage.setItem("currentUser", emailInput);
+              await loadUser(emailInput);
+              flash("✅ Login realizado!");
+            } else { flash("⚠️ Senha incorreta"); }
+          } else {
+            const now = new Date().toISOString();
+            const db2 = { ...db, users: { ...db.users, [emailInput]: { password: passInput, expenses: [], cycleStart: now, monthlyGoal: 0 } } };
+            await saveCloud(db2);
+            setUser(emailInput); setLoggedIn(true);
+            localStorage.setItem("currentUser", emailInput);
+            setCycleStart(now); setExpenses([]); setGoal(0);
+            flash("✅ Conta criada!");
+          }
+        } catch { flash("⚠️ Erro de conexão."); }
+        finally { setLoading(false); setPassInput(""); }
+      };
+
+      // ── Save goal ──
+      const saveGoal = async () => {
+        const v = parseFloat(goalInput.replace(",", "."));
+        if (isNaN(v) || v < 0) { flash("⚠️ Valor inválido"); return; }
+        try {
+          const db = await loadCloud();
+          const db2 = { ...db, users: { ...db.users, [user]: { ...db.users[user], monthlyGoal: v } } };
+          await saveCloud(db2);
+          setGoal(v); setEditingGoal(false); setGoalInput("");
+          flash(`✅ Meta definida: R$ ${v.toFixed(2)}`);
+        } catch { flash("⚠️ Erro ao salvar meta."); }
+      };
+
+      // ── Logout ──
+      const logout = () => {
+        setLoggedIn(false); setUser(""); setExpenses([]); setCycleStart(null);
+        setGoal(0); localStorage.removeItem("currentUser");
+      };
+
+      // ── Parse input ──
+      const parseExpense = (s) => {
+        const m = s.trim().match(/^(.+?)\s*(?:R?\$|)\s*(\d+(?:[.,]\d{1,2})?)$/i);
+        if (m) return { category: m[1].trim().toLowerCase(), value: parseFloat(m[2].replace(",", ".")) };
+        return null;
+      };
+
+      // ── Add expense ──
+      const addExpense = async () => {
+        if (!input.trim()) return;
+        const p = parseExpense(input);
+        if (!p) { flash("⚠️ Use: categoria $valor  ex: mercado $45"); return; }
+        const date = dateInput ? new Date(dateInput).toISOString() : new Date().toISOString();
+        const item = { id: Date.now().toString(), ...p, date, user };
+        try {
+          const db = await loadCloud();
+          const ud = db.users[user];
+          const db2 = { ...db, users: { ...db.users, [user]: { ...ud, expenses: [...(ud.expenses || []), item] } } };
+          await saveCloud(db2);
+          setExpenses(prev => [...prev, item]);
+          flash(`✅ ${p.category} — R$ ${p.value.toFixed(2)}`);
+          setInput(""); setDateInput(""); setShowDatePicker(false);
+        } catch { flash("⚠️ Erro ao salvar."); }
+      };
+
+      // ── Delete expense ──
+      const deleteExpense = async (id) => {
+        try {
+          const db = await loadCloud();
+          const ud = db.users[user];
+          const db2 = { ...db, users: { ...db.users, [user]: { ...ud, expenses: ud.expenses.filter(e => e.id !== id) } } };
+          await saveCloud(db2);
+          setExpenses(prev => prev.filter(e => e.id !== id));
+          flash("✅ Removido!");
+        } catch { flash("⚠️ Erro ao remover."); }
+      };
+
+      // ── New cycle ──
+      const newCycle = async () => {
+        if (!confirm("Iniciar novo ciclo? Os dados atuais serão apagados.")) return;
+        try {
+          const db = await loadCloud();
+          const now = new Date().toISOString();
+          const db2 = { ...db, users: { ...db.users, [user]: { ...db.users[user], expenses: [], cycleStart: now } } };
+          await saveCloud(db2);
+          setExpenses([]); setCycleStart(now); setShowReport(false);
+          flash("✅ Novo ciclo iniciado!");
+        } catch { flash("⚠️ Erro ao iniciar ciclo."); }
+      };
+
+      // ── Stats ──
+      const byCategory = {};
+      let total = 0;
+      expenses.forEach(e => { byCategory[e.category] = (byCategory[e.category] || 0) + e.value; total += e.value; });
+      const sorted = Object.entries(byCategory).sort((a, b) => b[1] - a[1]);
+
+      const fmtDate = (d) => new Date(d).toLocaleDateString("pt-BR");
+      const daysSince = cycleStart ? Math.floor((Date.now() - new Date(cycleStart)) / 86400000) : 0;
+
+      // ── Print report ──
+      const printReport = () => {
+        const win = window.open("", "_blank");
+        win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Relatório</title>
+        <style>body{font-family:Arial;padding:40px;max-width:800px;margin:0 auto}
+        h1{color:#4F46E5;border-bottom:3px solid #4F46E5;padding-bottom:10px}
+        .bar{background:#EEF2FF;padding:15px;border-radius:8px;margin:10px 0;border-left:4px solid #4F46E5}
+        .total{background:#4F46E5;color:#fff;padding:20px;border-radius:8px;text-align:center;font-size:22px;margin:20px 0}
+        .goal{padding:15px;border-radius:8px;margin:10px 0;${total > goal && goal > 0 ? "background:#FEE2E2;border-left:4px solid #EF4444" : "background:#D1FAE5;border-left:4px solid #10B981"}}
+        table{width:100%;border-collapse:collapse;margin-top:20px}td,th{padding:10px;border-bottom:1px solid #eee;text-align:left}
+        @media print{button{display:none}}</style>
+        </head><body>
+        <h1>📊 Relatório — ${user}</h1>
+        <p>Ciclo iniciado: ${fmtDate(cycleStart)} (${daysSince} dias) | Gerado: ${new Date().toLocaleString("pt-BR")}</p>
+        ${goal > 0 ? `<div class="goal"><strong>Meta mensal: R$ ${goal.toFixed(2)}</strong><br>
+        Gasto: R$ ${total.toFixed(2)} (${((total/goal)*100).toFixed(1)}%)
+        ${total > goal ? `<br><strong style="color:red">⚠️ Excedeu em R$ ${(total-goal).toFixed(2)}</strong>` : ""}</div>` : ""}
+        <h2>Por Categoria</h2>
+        ${sorted.map(([cat, val]) => `<div class="bar"><b style="text-transform:capitalize">${cat}</b> — R$ ${val.toFixed(2)} <span style="color:#6B7280">(${((val/total)*100).toFixed(1)}%)</span></div>`).join("")}
+        <div class="total">Total: R$ ${total.toFixed(2)}</div>
+        <h2>Detalhamento</h2>
+        <table><tr><th>Categoria</th><th>Valor</th><th>Data</th><th>Usuário</th></tr>
+        ${[...expenses].sort((a,b)=>new Date(b.date)-new Date(a.date)).map(e=>`<tr><td style="text-transform:capitalize">${e.category}</td><td>R$ ${e.value.toFixed(2)}</td><td>${fmtDate(e.date)}</td><td>${e.user}</td></tr>`).join("")}
+        </table></body></html>`);
+        win.document.close(); win.print();
+      };
+
+      // ── Theme classes ──
+      const bg    = dark ? "bg-gray-900"   : "bg-gradient-to-br from-blue-50 to-indigo-100";
+      const card  = dark ? "bg-gray-800"   : "bg-white";
+      const text  = dark ? "text-gray-100" : "text-gray-800";
+      const muted = dark ? "text-gray-400" : "text-gray-500";
+      const inp   = dark ? "bg-gray-700 border-gray-600 text-gray-100" : "bg-white border-gray-200 text-gray-800";
+      const hover = dark ? "hover:bg-gray-700" : "hover:bg-gray-100";
+      const sub   = dark ? "bg-gray-700" : "bg-gray-50";
+
+      // ── Login screen ──
+      if (loading && !loggedIn) return (
+        <div className={`min-h-screen ${bg} flex items-center justify-center`}>
+          <div className={`${card} rounded-2xl shadow-xl p-8 text-center`}>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4" />
+            <p className={text}>Carregando...</p>
+          </div>
+        </div>
+      );
+
+      if (!loggedIn) return (
+        <div className={`min-h-screen ${bg} flex items-center justify-center p-4`}>
+          <div className={`${card} rounded-2xl shadow-xl p-8 max-w-md w-full`}>
+            <div className="text-center mb-6">
+              <div className="bg-indigo-600 p-4 rounded-xl inline-block mb-4">
+                <Icon d={IC.dollar} cls="w-12 h-12 text-white" />
+              </div>
+              <h1 className={`text-3xl font-bold ${text}`}>Meu Controle</h1>
+              <p className={muted}>Finanças Compartilhadas</p>
+            </div>
+
+            <form onSubmit={doLogin} className="space-y-4">
+              <div>
+                <label className={`block text-sm font-medium ${text} mb-1`}>E-mail</label>
+                <input type="email" value={emailInput} onChange={e=>setEmailInput(e.target.value)}
+                  placeholder="seu@email.com"
+                  className={`w-full px-4 py-3 ${inp} border-2 rounded-xl focus:border-indigo-500 focus:outline-none`} required />
+              </div>
+              <div>
+                <label className={`block text-sm font-medium ${text} mb-1`}>Senha</label>
+                <input type="password" value={passInput} onChange={e=>setPassInput(e.target.value)}
+                  placeholder="Digite sua senha"
+                  className={`w-full px-4 py-3 ${inp} border-2 rounded-xl focus:border-indigo-500 focus:outline-none`} required />
+              </div>
+
+              {msg && <div className={`p-3 rounded-lg text-sm ${msg.startsWith("✅") ? "bg-green-50 text-green-700" : "bg-yellow-50 text-yellow-700"}`}>{msg}</div>}
+
+              <button type="submit" disabled={loading}
+                className="w-full bg-indigo-600 text-white py-3 rounded-xl hover:bg-indigo-700 font-semibold text-lg shadow-lg disabled:opacity-50">
+                {loading ? "Carregando..." : "Entrar / Criar Conta"}
+              </button>
+
+              <div className={`text-xs ${muted} space-y-1 p-4 rounded-lg ${dark ? "bg-blue-900/40" : "bg-blue-50"}`}>
+                <p className={`font-semibold ${dark ? "text-blue-300" : "text-blue-700"}`}>💡 Dicas:</p>
+                <p>• Conta nova é criada automaticamente</p>
+                <p>• Use a mesma conta em vários dispositivos</p>
+                <p>• Compartilhe login com sua família</p>
+              </div>
+            </form>
+          </div>
+        </div>
+      );
+
+      // ── Main app ──
+      return (
+        <div className={`min-h-screen ${bg} p-4`}>
+          <div className="max-w-4xl mx-auto">
+
+            {/* Header */}
+            <div className={`${card} rounded-2xl shadow-xl p-6 mb-6`}>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="bg-indigo-600 p-3 rounded-xl">
+                    <Icon d={IC.dollar} cls="w-8 h-8 text-white" />
+                  </div>
+                  <div>
+                    <h1 className={`text-3xl font-bold ${text}`}>Meu Controle</h1>
+                    <p className={muted}>Olá, {user.split("@")[0]}! 👋</p>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <button onClick={()=>{setDark(d=>{localStorage.setItem("darkMode",!d);return !d;})}}
+                    className={`p-3 ${card} rounded-lg ${hover} border-2 ${dark?"border-gray-700":"border-gray-200"}`}>
+                    <Icon d={dark ? IC.sun : IC.moon} cls={`w-5 h-5 ${dark?"text-yellow-400":"text-gray-600"}`} />
+                  </button>
+                  <button onClick={logout}
+                    className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">
+                    <Icon d={IC.logout} cls="w-4 h-4" />Sair
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <div className={`flex items-center gap-2 text-sm ${muted} ${dark?"bg-indigo-900/40":"bg-indigo-50"} p-3 rounded-lg flex-1 min-w-[200px]`}>
+                  <Icon d={IC.calendar} cls="w-4 h-4" />
+                  <span>Ciclo: {daysSince} dias (desde {fmtDate(cycleStart)})</span>
+                </div>
+                <button onClick={newCycle}
+                  className="flex items-center gap-2 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 text-sm">
+                  <Icon d={IC.reset} cls="w-4 h-4" />Novo Ciclo
+                </button>
+              </div>
+            </div>
+
+            {/* Goal meter */}
+            <GoalMeter total={total} goal={goal} dark={dark} />
+
+            {/* Goal editor */}
+            <div className={`${card} rounded-2xl shadow-xl p-6 mb-6`}>
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <Icon d={IC.target} cls="w-5 h-5 text-indigo-500" />
+                  <h2 className={`font-semibold ${text}`}>Objetivo de Gasto Mensal</h2>
+                </div>
+                {!editingGoal && (
+                  <button onClick={()=>{setEditingGoal(true);setGoalInput(goal>0?goal.toFixed(2):"");}}
+                    className={`flex items-center gap-1 text-sm px-3 py-1 ${dark?"bg-gray-700 text-gray-300":"bg-gray-100 text-gray-600"} rounded-lg ${hover}`}>
+                    <Icon d={IC.edit} cls="w-4 h-4" />{goal > 0 ? "Editar" : "Definir meta"}
+                  </button>
+                )}
+              </div>
+
+              {editingGoal ? (
+                <div className="flex gap-2">
+                  <div className="relative flex-1">
+                    <span className={`absolute left-3 top-1/2 -translate-y-1/2 font-bold ${muted}`}>R$</span>
+                    <input
+                      type="number" min="0" step="0.01"
+                      value={goalInput} onChange={e=>setGoalInput(e.target.value)}
+                      placeholder="Ex: 1500,00"
+                      onKeyDown={e=>e.key==="Enter"&&saveGoal()}
+                      className={`w-full pl-10 pr-4 py-2 ${inp} border-2 rounded-xl focus:border-indigo-500 focus:outline-none`}
+                      autoFocus
+                    />
+                  </div>
+                  <button onClick={saveGoal} className="px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 font-semibold">Salvar</button>
+                  <button onClick={()=>setEditingGoal(false)} className={`px-4 py-2 ${dark?"bg-gray-700 text-gray-300":"bg-gray-100 text-gray-600"} rounded-xl ${hover}`}>✕</button>
+                </div>
+              ) : (
+                <p className={muted + " text-sm"}>
+                  {goal > 0 ? `Meta: R$ ${goal.toFixed(2)} / mês` : "Nenhuma meta definida — clique em "Definir meta" para começar."}
+                </p>
+              )}
+            </div>
+
+            {/* Add expense */}
+            <div className={`${card} rounded-2xl shadow-xl p-6 mb-6`}>
+              <div className="space-y-4">
+                <div>
+                  <label className={`block text-sm font-medium ${text} mb-2`}>Lançar despesa</label>
+                  <input
+                    type="text" value={input} onChange={e=>setInput(e.target.value)}
+                    onKeyDown={e=>e.key==="Enter"&&addExpense()}
+                    placeholder="Ex: mercado $20  ou  ifood 35,50"
+                    className={`w-full px-4 py-3 ${inp} border-2 rounded-xl focus:border-indigo-500 focus:outline-none text-lg`}
+                  />
+                </div>
+
+                <div className="flex items-center gap-2 flex-wrap">
+                  <button onClick={()=>setShowDatePicker(d=>!d)}
+                    className={`flex items-center gap-2 px-4 py-2 ${sub} rounded-lg ${hover} text-sm ${text}`}>
+                    <Icon d={IC.clock} cls="w-4 h-4" />
+                    {dateInput ? "Data: "+new Date(dateInput).toLocaleDateString("pt-BR") : "Adicionar data passada"}
+                  </button>
+                  {dateInput && <button onClick={()=>{setDateInput("");setShowDatePicker(false);}} className="text-red-500 text-sm hover:text-red-700">✕ Limpar</button>}
+                </div>
+
+                {showDatePicker && (
+                  <input type="date" value={dateInput} onChange={e=>setDateInput(e.target.value)}
+                    max={new Date().toISOString().split("T")[0]}
+                    className={`w-full px-4 py-2 ${inp} border-2 rounded-xl focus:border-indigo-500 focus:outline-none`} />
+                )}
+
+                {msg && <div className={`p-3 rounded-lg text-sm ${msg.startsWith("✅")?"bg-green-50 text-green-700":"bg-yellow-50 text-yellow-700"}`}>{msg}</div>}
+
+                <button onClick={addExpense}
+                  className="w-full bg-indigo-600 text-white py-3 rounded-xl hover:bg-indigo-700 font-semibold text-lg shadow-lg">
+                  Adicionar Despesa
+                </button>
+              </div>
+            </div>
+
+            {/* Stats cards */}
+            {expenses.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                {[
+                  { label: "Total Gasto", val: `R$ ${total.toFixed(2)}`, icon: IC.chart, color: "text-red-500" },
+                  { label: "Lançamentos", val: expenses.length, icon: IC.calendar, color: "text-blue-500" },
+                  { label: "Categorias", val: sorted.length, icon: IC.pie, color: "text-indigo-500" },
+                ].map(({ label, val, icon, color }) => (
+                  <div key={label} className={`${card} rounded-xl shadow-lg p-5`}>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className={muted + " text-sm"}>{label}</p>
+                        <p className={`text-2xl font-bold ${text}`}>{val}</p>
+                      </div>
+                      <Icon d={icon} cls={`w-10 h-10 ${color}`} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Report buttons */}
+            {expenses.length > 0 && (
+              <div className="flex gap-4 mb-6 flex-wrap">
+                <button onClick={()=>setShowReport(r=>!r)}
+                  className="flex-1 min-w-[200px] bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 rounded-xl hover:from-indigo-700 hover:to-purple-700 font-semibold text-lg shadow-xl">
+                  {showReport ? "👁️ Ocultar Relatório" : "📊 Ver Relatório Detalhado"}
+                </button>
+                <button onClick={printReport}
+                  className="flex items-center gap-2 px-6 py-4 bg-green-600 text-white rounded-xl hover:bg-green-700 font-semibold shadow-xl">
+                  <Icon d={IC.download} cls="w-5 h-5" />Baixar PDF
+                </button>
+              </div>
+            )}
+
+            {/* Detailed report */}
+            {showReport && expenses.length > 0 && (
+              <div className={`${card} rounded-2xl shadow-xl p-6 mb-6`}>
+                <h2 className={`text-2xl font-bold ${text} mb-6 flex items-center gap-2`}>
+                  <Icon d={IC.pie} cls="w-6 h-6" />Relatório por Categoria
+                </h2>
+                <div className="space-y-4 mb-6">
+                  {sorted.map(([cat, val]) => {
+                    const pct = (val / total) * 100;
+                    return (
+                      <div key={cat} className="space-y-1">
+                        <div className="flex justify-between">
+                          <span className={`font-semibold ${text} capitalize`}>{cat}</span>
+                          <span className={`${text} font-bold`}>R$ {val.toFixed(2)}</span>
+                        </div>
+                        <div className={`w-full ${dark?"bg-gray-700":"bg-gray-200"} rounded-full h-3`}>
+                          <div className="bg-gradient-to-r from-indigo-500 to-purple-500 h-3 rounded-full progress-bar" style={{width:`${pct}%`}} />
+                        </div>
+                        <p className={`text-xs ${muted} text-right`}>{pct.toFixed(1)}% do total</p>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className={`border-t-2 ${dark?"border-gray-700":"border-gray-200"} pt-4 flex justify-between text-xl font-bold`}>
+                  <span className={text}>Total Geral:</span>
+                  <span className="text-indigo-600">R$ {total.toFixed(2)}</span>
+                </div>
+              </div>
+            )}
+
+            {/* Transactions list */}
+            {expenses.length > 0 ? (
+              <div className={`${card} rounded-2xl shadow-xl p-6`}>
+                <h2 className={`text-2xl font-bold ${text} mb-4`}>Lançamentos Recentes</h2>
+                <div className="space-y-2 max-h-96 overflow-y-auto">
+                  {[...expenses].sort((a,b)=>new Date(b.date)-new Date(a.date)).map(e => (
+                    <div key={e.id} className={`flex items-center justify-between p-4 ${sub} rounded-lg ${hover}`}>
+                      <div>
+                        <p className={`font-semibold ${text} capitalize`}>{e.category}</p>
+                        <p className={`text-xs ${muted}`}>{fmtDate(e.date)} • por {e.user.split("@")[0]}</p>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="text-lg font-bold text-red-500">R$ {e.value.toFixed(2)}</span>
+                        <button onClick={()=>deleteExpense(e.id)}
+                          className={`p-2 text-red-500 ${dark?"hover:bg-red-900/40":"hover:bg-red-50"} rounded-lg`}>
+                          <Icon d={IC.trash} cls="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className={`${card} rounded-2xl shadow-xl p-12 text-center`}>
+                <Icon d={IC.dollar} cls={`w-16 h-16 ${muted} mx-auto mb-4`} />
+                <h3 className={`text-xl font-semibold ${muted} mb-2`}>Nenhum lançamento ainda</h3>
+                <p className={muted}>Comece digitando sua primeira despesa acima!</p>
+                <p className={`text-sm ${muted} mt-2`}>Exemplo: "mercado $45,90" ou "ifood 32"</p>
+              </div>
+            )}
+
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(
+      <React.StrictMode><App /></React.StrictMode>
+    );
+  </script>
+</body>
+</html>
