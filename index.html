@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Meu Controle</title>
+  <meta name="theme-color" content="#4F46E5"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-title" content="Meu Controle"/>
+  <link rel="apple-touch-icon" href="data:image/png;base64,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"/>
+  <link rel="icon" type="image/png" href="data:image/png;base64,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"/>
+  <script>
+    window.addEventListener('DOMContentLoaded',function(){
+      var m="{\"name\": \"Meu Controle\", \"short_name\": \"Meu Controle\", \"description\": \"Controle de gastos compartilhado\", \"start_url\": \".\", \"display\": \"standalone\", \"background_color\": \"#4F46E5\", \"theme_color\": \"#4F46E5\", \"icons\": [{\"src\": \"data:image/png;base64,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\", \"sizes\": \"192x192\", \"type\": \"image/png\", \"purpose\": \"any maskable\"}, {\"src\": \"data:image/png;base64,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\", \"sizes\": \"512x512\", \"type\": \"image/png\", \"purpose\": \"any maskable\"}]}";
+      var b=new Blob([m],{type:'application/manifest+json'});
+      var l=document.createElement('link');
+      l.rel='manifest';l.href=URL.createObjectURL(b);
+      document.head.appendChild(l);
+    });
+  </script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;min-height:100vh}
+    .spin{animation:spin 1s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    input,button{font-family:inherit}
+    .bar{transition:width .5s ease}
+    ::-webkit-scrollbar{width:5px}
+    ::-webkit-scrollbar-thumb{background:#888;border-radius:3px}
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script>
+const {useState,useEffect} = React;
+const h = React.createElement;
+
+const BIN_ID = "6928a3d243b1c97be9c93278";
+const API_KEY = "$2a$10$GdYgL/jUBR4DCMQziNCkxeyVyT9ekinkH2KjvIZBecyAoBlANiTEq";
+
+async function loadCloud(){
+  try{
+    const r=await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,{headers:{"X-Master-Key":API_KEY}});
+    if(r.ok)return(await r.json()).record||{users:{}};
+  }catch(e){}
+  return{users:{}};
+}
+async function saveCloud(data){
+  const r=await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`,{
+    method:"PUT",
+    headers:{"Content-Type":"application/json","X-Master-Key":API_KEY},
+    body:JSON.stringify(data)
+  });
+  if(!r.ok)throw new Error("Erro ao salvar");
+  return r.json();
+}
+
+function fmtR(n){return"R$ "+Number(n).toFixed(2).replace(".",",")}
+function fmtDate(d){try{return new Date(d).toLocaleDateString("pt-BR")}catch{return""}}
+function parseBR(s){return parseFloat(String(s).replace(",","."))}
+
+function Ico({path,size=20,color="currentColor"}){
+  return h("svg",{width:size,height:size,viewBox:"0 0 24 24",fill:"none",stroke:color,strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round"},
+    h("path",{d:path})
+  );
+}
+const P={
+  dollar:"M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
+  trash:"M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16",
+  logout:"M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1",
+  moon:"M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z",
+  sun:"M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z",
+  cal:"M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z",
+  reset:"M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6",
+  target:"M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
+  pdf:"M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z",
+  credit:"M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z",
+  debit:"M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z",
+  check:"M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
+  xcircle:"M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z",
+  layers:"M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5",
+  clock:"M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z",
+};
+
+// ── Goal Bar ──────────────────────────────────────────────────────────────────
+function GoalBar({label,icon,total,goal,dark,color}){
+  if(!goal||goal<=0)return null;
+  const pct=Math.min((total/goal)*100,100);
+  const over=total>goal;
+  const overPct=over?((total-goal)/goal*100).toFixed(1):null;
+  let barCol,bgCol,txtCol,status;
+  if(pct<60){barCol=color||"#10b981";bgCol=dark?"rgba(6,78,59,.2)":"#ecfdf5";txtCol="#059669";status="✅ OK";}
+  else if(pct<85){barCol="#f59e0b";bgCol=dark?"rgba(120,53,15,.2)":"#fffbeb";txtCol="#d97706";status="⚠️ Atenção";}
+  else if(pct<100){barCol="#f97316";bgCol=dark?"rgba(124,45,18,.2)":"#fff7ed";txtCol="#ea580c";status="🚨 Quase!";}
+  else{barCol="#dc2626";bgCol=dark?"rgba(127,29,29,.2)":"#fef2f2";txtCol="#dc2626";status="🔴 +"+overPct+"%";}
+  return h("div",{style:{background:bgCol,border:"2px solid "+(over?"#f87171":"transparent"),borderRadius:12,padding:"11px 14px",marginBottom:10}},
+    h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:5}},
+      h("div",{style:{display:"flex",alignItems:"center",gap:6}},
+        h(Ico,{path:icon,size:15,color:barCol}),
+        h("span",{style:{fontWeight:600,fontSize:13,color:dark?"#e5e7eb":"#374151"}},label)
+      ),
+      h("div",{style:{display:"flex",alignItems:"center",gap:8}},
+        h("span",{style:{fontSize:12,fontWeight:700,color:txtCol}},status),
+        h("span",{style:{fontSize:11,color:dark?"#9ca3af":"#6b7280"}},fmtR(total)+" / "+fmtR(goal))
+      )
+    ),
+    h("div",{style:{background:dark?"#374151":"#e5e7eb",borderRadius:999,height:13,overflow:"hidden"}},
+      h("div",{style:{width:pct+"%",height:"100%",background:barCol,borderRadius:999,transition:"width .5s",display:"flex",alignItems:"center",justifyContent:"flex-end",paddingRight:4}},
+        pct>12?h("span",{style:{color:"#fff",fontSize:10,fontWeight:700}},pct.toFixed(0)+"%"):null
+      )
+    ),
+    over?h("p",{style:{fontSize:11,color:"#dc2626",fontWeight:700,marginTop:4,textAlign:"right"}},"Excedeu "+fmtR(total-goal)):null
+  );
+}
+
+// ── Goal Editor ───────────────────────────────────────────────────────────────
+function GoalEditor({label,icon,value,onSave,dark}){
+  const [editing,setEditing]=useState(false);
+  const [inp,setInp]=useState("");
+  const textColor=dark?"#f9fafb":"#1f2937";
+  const mutedColor=dark?"#9ca3af":"#6b7280";
+  const inputSt={padding:"7px 11px",border:"2px solid "+(dark?"#374151":"#e5e7eb"),borderRadius:9,background:dark?"#374151":"#fff",color:textColor,fontSize:14,outline:"none",fontFamily:"inherit",flex:1};
+  const ghost={background:dark?"#374151":"#f3f4f6",color:dark?"#d1d5db":"#374151",border:"none",borderRadius:7,padding:"6px 11px",fontSize:12,cursor:"pointer"};
+  return h("div",{style:{display:"flex",alignItems:"center",gap:10,flexWrap:"wrap",marginBottom:8}},
+    h("div",{style:{display:"flex",alignItems:"center",gap:5,minWidth:90}},
+      h(Ico,{path:icon,size:14,color:mutedColor}),
+      h("span",{style:{fontSize:13,color:mutedColor}},"Meta "+label+":")
+    ),
+    editing
+      ?h("div",{style:{display:"flex",gap:6,flex:1,minWidth:160}},
+          h("input",{type:"number",min:"0",step:"0.01",value:inp,onChange:ev=>setInp(ev.target.value),placeholder:"Ex: 1500",style:inputSt,
+            onKeyDown:ev=>{if(ev.key==="Enter"){onSave(parseBR(inp));setEditing(false);}},autoFocus:true}),
+          h("button",{onClick:()=>{onSave(parseBR(inp));setEditing(false);},style:{background:"#4f46e5",color:"#fff",border:"none",borderRadius:7,padding:"6px 13px",fontWeight:600,cursor:"pointer",fontSize:13}},"OK"),
+          h("button",{onClick:()=>setEditing(false),style:ghost},"✕")
+        )
+      :h("div",{style:{display:"flex",alignItems:"center",gap:8}},
+          h("span",{style:{fontWeight:700,fontSize:14,color:textColor}},value>0?fmtR(value):"—"),
+          h("button",{onClick:()=>{setEditing(true);setInp(value>0?value.toFixed(2):"");},style:{...ghost,fontSize:12}},
+            value>0?"✏️ Editar":"+ Definir")
+        )
+  );
+}
+
+// ── PDF Report ────────────────────────────────────────────────────────────────
+function generatePDF({user,cycleStart,creditClosedAt,debitExpenses,creditCurrentExpenses,creditNextExpenses,goalDebit,goalCredit}){
+  const totalDebit=debitExpenses.reduce((s,e)=>s+e.value,0);
+  const totalCredit=creditCurrentExpenses.reduce((s,e)=>s+e.value,0);
+  const totalNext=creditNextExpenses.reduce((s,e)=>s+e.value,0);
+  const daysSince=cycleStart?Math.floor((Date.now()-new Date(cycleStart))/86400000):0;
+
+  function catRows(exps,color){
+    const byC={};exps.forEach(e=>{byC[e.category]=(byC[e.category]||0)+e.value;});
+    const tot=exps.reduce((s,e)=>s+e.value,0);
+    if(!Object.keys(byC).length)return "<p style='color:#9ca3af;text-align:center;padding:10px'>Sem lançamentos</p>";
+    return Object.entries(byC).sort((a,b)=>b[1]-a[1]).map(([cat,val])=>`
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <div style="width:130px;font-weight:600;text-transform:capitalize;font-size:12px">${cat}</div>
+        <div style="flex:1;background:#e5e7eb;border-radius:999px;height:8px">
+          <div style="width:${tot>0?(val/tot*100).toFixed(1):0}%;height:100%;background:${color};border-radius:999px"></div>
+        </div>
+        <div style="width:85px;text-align:right;font-weight:700;font-size:12px">${fmtR(val)}</div>
+      </div>`).join("");
+  }
+
+  function rowList(exps){
+    if(!exps.length)return "<tr><td colspan='3' style='text-align:center;color:#9ca3af;padding:10px'>Sem lançamentos</td></tr>";
+    return [...exps].sort((a,b)=>new Date(b.date)-new Date(a.date)).map(e=>{
+      const par=e.parcela?" ("+e.parcela.atual+"/"+e.parcela.total+")":"";
+      return `<tr><td><b style="text-transform:capitalize">${e.category}${par}</b></td><td>${fmtR(e.value)}</td><td>${fmtDate(e.date)}</td></tr>`;
+    }).join("");
+  }
+
+  function goalBlock(total,goal,label,color){
+    if(!goal||goal<=0)return`<p style="margin-bottom:8px"><b>${label}:</b> ${fmtR(total)} <span style="color:#9ca3af">(sem meta)</span></p>`;
+    const pct=Math.min((total/goal)*100,100);
+    const over=total>goal;
+    const col=pct<60?"#10b981":pct<85?"#f59e0b":pct<100?"#f97316":"#dc2626";
+    return`<div style="border-left:4px solid ${col};padding:10px 14px;background:#f9fafb;border-radius:8px;margin-bottom:10px">
+      <b>${label}</b><br>
+      <div style="background:#e5e7eb;border-radius:999px;height:10px;margin:6px 0">
+        <div style="width:${pct}%;height:100%;background:${col};border-radius:999px"></div>
+      </div>
+      ${fmtR(total)} de ${fmtR(goal)} (${pct.toFixed(1)}%)
+      ${over?`<br><span style="color:#dc2626;font-weight:700">⚠️ Excedeu ${fmtR(total-goal)}</span>`:""}
+    </div>`;
+  }
+
+  const html=`<!DOCTYPE html><html lang="pt-BR"><head>
+<meta charset="UTF-8"><title>Relatório Meu Controle</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;padding:30px;color:#1f2937;font-size:13px;line-height:1.5}
+h1{color:#4f46e5;font-size:20px;margin-bottom:3px}
+h2{font-size:14px;color:#4f46e5;margin:18px 0 10px;padding-bottom:5px;border-bottom:2px solid #e5e7eb}
+.subtitle{color:#6b7280;font-size:11px;margin-bottom:2px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.card{background:#f9fafb;border:1px solid #e5e7eb;border-radius:10px;padding:12px;text-align:center}
+.card .v{font-size:16px;font-weight:700;margin-bottom:2px}
+.card .l{font-size:10px;color:#6b7280}
+.section{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px;margin-bottom:14px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:#f3f4f6;padding:7px 9px;text-align:left;font-size:11px;color:#6b7280;text-transform:uppercase}
+td{padding:6px 9px;border-bottom:1px solid #f9fafb}
+tr:last-child td{border-bottom:none}
+.footer{text-align:center;color:#9ca3af;font-size:11px;margin-top:20px;padding-top:14px;border-top:1px solid #e5e7eb}
+.printbtn{background:#4f46e5;color:#fff;border:none;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer}
+@media print{.printbtn{display:none}body{padding:14px}}
+</style></head><body>
+<div class="top">
+  <div>
+    <h1>💰 Meu Controle</h1>
+    <div class="subtitle">Usuário: <b>${user}</b></div>
+    <div class="subtitle">Gerado em ${new Date().toLocaleString("pt-BR")}</div>
+    <div class="subtitle">Ciclo débito: ${fmtDate(cycleStart)} · ${daysSince} dias${creditClosedAt?" · Fatura fechada em "+fmtDate(creditClosedAt):""}</div>
+  </div>
+  <button class="printbtn" onclick="window.print()">🖨️ Salvar PDF</button>
+</div>
+
+<div class="cards">
+  <div class="card"><div class="v" style="color:#3b82f6">${fmtR(totalDebit)}</div><div class="l">🏦 Débito Total</div></div>
+  <div class="card"><div class="v" style="color:#7c3aed">${fmtR(totalCredit)}</div><div class="l">💳 Fatura Atual</div></div>
+  <div class="card"><div class="v" style="color:#8b5cf6">${fmtR(totalNext)}</div><div class="l">💳 Próx. Fatura</div></div>
+</div>
+
+<h2>📊 Metas</h2>
+<div class="section">
+  ${goalBlock(totalDebit,goalDebit,"🏦 Meta de Débito","#3b82f6")}
+  ${goalBlock(totalCredit,goalCredit,"💳 Meta da Fatura de Crédito","#7c3aed")}
+  <p style="font-size:11px;color:#9ca3af;margin-top:4px">ℹ️ Crédito é controle separado — o valor da fatura sairá no débito do próximo mês</p>
+</div>
+
+<h2>🏦 Débito — Por Categoria</h2>
+<div class="section">${catRows(debitExpenses,"#3b82f6")}
+${debitExpenses.length?`<div style="text-align:right;font-weight:700;font-size:13px;margin-top:8px;color:#3b82f6">Total: ${fmtR(totalDebit)}</div>`:""}
+</div>
+
+<h2>🏦 Débito — Lançamentos</h2>
+<div class="section"><table><thead><tr><th>Descrição</th><th>Valor</th><th>Data</th></tr></thead>
+<tbody>${rowList(debitExpenses)}</tbody></table></div>
+
+<h2>💳 Crédito (Fatura Atual) — Por Categoria</h2>
+<div class="section">${catRows(creditCurrentExpenses,"#7c3aed")}
+${creditCurrentExpenses.length?`<div style="text-align:right;font-weight:700;font-size:13px;margin-top:8px;color:#7c3aed">Total: ${fmtR(totalCredit)}</div>`:""}
+</div>
+
+<h2>💳 Crédito (Fatura Atual) — Lançamentos</h2>
+<div class="section"><table><thead><tr><th>Descrição</th><th>Valor</th><th>Data</th></tr></thead>
+<tbody>${rowList(creditCurrentExpenses)}</tbody></table></div>
+
+${creditNextExpenses.length?`
+<h2>💳 Próxima Fatura — Lançamentos</h2>
+<div class="section"><table><thead><tr><th>Descrição</th><th>Valor</th><th>Data</th></tr></thead>
+<tbody>${rowList(creditNextExpenses)}</tbody></table>
+<div style="text-align:right;font-weight:700;font-size:13px;margin-top:8px;color:#8b5cf6">Total: ${fmtR(totalNext)}</div></div>`:""}
+
+<div class="footer">Meu Controle · Relatório do mês atual</div>
+</body></html>`;
+
+  const win=window.open("","_blank");
+  win.document.write(html);
+  win.document.close();
+  setTimeout(()=>win.print(),700);
+}
+
+// ── App ───────────────────────────────────────────────────────────────────────
+function App(){
+  const [screen,setScreen]=useState("login");
+  const [dark,setDark]=useState(false);
+  const [loading,setLoading]=useState(false);
+  const [msg,setMsg]=useState("");
+  const [emailInput,setEmailInput]=useState("");
+  const [passInput,setPassInput]=useState("");
+  const [user,setUser]=useState("");
+  const [expenses,setExpenses]=useState([]);
+  const [cycleStart,setCycleStart]=useState(null);
+  const [creditClosedAt,setCreditClosedAt]=useState(null);
+  const [goalDebit,setGoalDebit]=useState(0);
+  const [goalCredit,setGoalCredit]=useState(0);
+
+  // form
+  const [input,setInput]=useState("");
+  const [dateInput,setDateInput]=useState("");
+  const [showDatePicker,setShowDatePicker]=useState(false);
+  const [expType,setExpType]=useState("debit");
+  const [isParceled,setIsParceled]=useState(false);
+  const [parcelaAtual,setParcelaAtual]=useState("1");
+  const [parcelaTotal,setParcelaTotal]=useState("2");
+  const [activeTab,setActiveTab]=useState("debit");
+
+  const flash=m=>{setMsg(m);setTimeout(()=>setMsg(""),3500)};
+
+  useEffect(()=>{
+    const d=localStorage.getItem("darkMode")==="true";setDark(d);
+    const u=localStorage.getItem("currentUser");
+    if(u){setUser(u);loadUser(u);}
+  },[]);
+
+  const loadUser=async u=>{
+    setLoading(true);
+    try{
+      const db=await loadCloud();
+      if(db.users?.[u]){
+        const ud=db.users[u];
+        setExpenses(ud.expenses||[]);setCycleStart(ud.cycleStart||new Date().toISOString());
+        setCreditClosedAt(ud.creditClosedAt||null);setGoalDebit(ud.goalDebit||0);setGoalCredit(ud.goalCredit||0);
+        setScreen("app");
+      }else{
+        const now=new Date().toISOString();
+        await saveCloud({...db,users:{...db.users,[u]:{password:"",expenses:[],cycleStart:now,creditClosedAt:null,goalDebit:0,goalCredit:0}}});
+        setCycleStart(now);setExpenses([]);setGoalDebit(0);setGoalCredit(0);setCreditClosedAt(null);setScreen("app");
+      }
+    }catch{flash("⚠️ Erro ao carregar.")}
+    finally{setLoading(false);}
+  };
+
+  const doLogin=async()=>{
+    if(!emailInput.trim()||!passInput.trim()){flash("⚠️ Preencha e-mail e senha");return;}
+    setLoading(true);
+    try{
+      const db=await loadCloud();
+      if(db.users?.[emailInput]){
+        if(db.users[emailInput].password===passInput){
+          setUser(emailInput);localStorage.setItem("currentUser",emailInput);
+          const ud=db.users[emailInput];
+          setExpenses(ud.expenses||[]);setCycleStart(ud.cycleStart||new Date().toISOString());
+          setCreditClosedAt(ud.creditClosedAt||null);setGoalDebit(ud.goalDebit||0);setGoalCredit(ud.goalCredit||0);
+          setScreen("app");flash("✅ Login realizado!");
+        }else{flash("⚠️ Senha incorreta");}
+      }else{
+        const now=new Date().toISOString();
+        await saveCloud({...db,users:{...db.users,[emailInput]:{password:passInput,expenses:[],cycleStart:now,creditClosedAt:null,goalDebit:0,goalCredit:0}}});
+        setUser(emailInput);localStorage.setItem("currentUser",emailInput);
+        setCycleStart(now);setExpenses([]);setGoalDebit(0);setGoalCredit(0);setCreditClosedAt(null);setScreen("app");flash("✅ Conta criada!");
+      }
+    }catch{flash("⚠️ Erro de conexão.")}
+    finally{setLoading(false);setPassInput("");}
+  };
+
+  const logout=()=>{
+    setScreen("login");setUser("");setExpenses([]);setCycleStart(null);setGoalDebit(0);setGoalCredit(0);setCreditClosedAt(null);
+    localStorage.removeItem("currentUser");
+  };
+
+  const saveGoal=async(field,v)=>{
+    if(isNaN(v)||v<0){flash("⚠️ Valor inválido");return;}
+    try{
+      const db=await loadCloud();
+      await saveCloud({...db,users:{...db.users,[user]:{...db.users[user],[field]:v}}});
+      field==="goalDebit"?setGoalDebit(v):setGoalCredit(v);
+      flash("✅ Meta: "+fmtR(v));
+    }catch{flash("⚠️ Erro.")}
+  };
+
+  const parseExpense=s=>{
+    const m=s.trim().match(/^(.+?)\s*(?:R?\$|)\s*(\d+(?:[.,]\d{1,2})?)$/i);
+    if(m)return{category:m[1].trim().toLowerCase(),value:parseBR(m[2])};
+    return null;
+  };
+
+  const addExpense=async()=>{
+    if(!input.trim())return;
+    const p=parseExpense(input);
+    if(!p){flash("⚠️ Ex: mercado 45  ou  ifood 35,50");return;}
+    const date=dateInput?new Date(dateInput).toISOString():new Date().toISOString();
+    const creditCycle=expType==="credit"?(creditClosedAt?"next":"current"):null;
+    const parcela=expType==="credit"&&isParceled?{atual:parseInt(parcelaAtual)||1,total:parseInt(parcelaTotal)||2}:null;
+    const item={id:Date.now().toString(),...p,date,user,type:expType,creditCycle,parcela};
+    try{
+      const db=await loadCloud();
+      const ud=db.users[user];
+      await saveCloud({...db,users:{...db.users,[user]:{...ud,expenses:[...(ud.expenses||[]),item]}}});
+      setExpenses(prev=>[...prev,item]);
+      const par=parcela?" ("+parcela.atual+"/"+parcela.total+")":"";
+      flash("✅ "+p.category+par+" — "+fmtR(p.value));
+      setInput("");setDateInput("");setShowDatePicker(false);setIsParceled(false);setParcelaAtual("1");setParcelaTotal("2");
+    }catch{flash("⚠️ Erro ao salvar.")}
+  };
+
+  const deleteExpense=async id=>{
+    try{
+      const db=await loadCloud();const ud=db.users[user];
+      await saveCloud({...db,users:{...db.users,[user]:{...ud,expenses:ud.expenses.filter(e=>e.id!==id)}}});
+      setExpenses(prev=>prev.filter(e=>e.id!==id));flash("✅ Removido!");
+    }catch{flash("⚠️ Erro.")}
+  };
+
+  const closeCreditCycle=async()=>{
+    if(!confirm("Fechar fatura atual?\nOs gastos ficam como 'fatura atual' e novos créditos entram como 'próxima fatura'."))return;
+    try{
+      const now=new Date().toISOString();
+      const updated=expenses.map(e=>e.type==="credit"&&e.creditCycle==="current"?{...e,creditCycle:"closed"}:e);
+      const db=await loadCloud();
+      await saveCloud({...db,users:{...db.users,[user]:{...db.users[user],expenses:updated,creditClosedAt:now}}});
+      setExpenses(updated);setCreditClosedAt(now);flash("✅ Fatura fechada!");
+    }catch{flash("⚠️ Erro.")}
+  };
+
+  const reopenCreditCycle=async()=>{
+    if(!confirm("Reabrir fatura?\nOs gastos voltarão para a fatura aberta."))return;
+    try{
+      const updated=expenses.map(e=>e.type==="credit"&&e.creditCycle==="closed"?{...e,creditCycle:"current"}:e);
+      const db=await loadCloud();
+      await saveCloud({...db,users:{...db.users,[user]:{...db.users[user],expenses:updated,creditClosedAt:null}}});
+      setExpenses(updated);setCreditClosedAt(null);flash("✅ Fatura reaberta!");
+    }catch{flash("⚠️ Erro.")}
+  };
+
+  const openNextCreditCycle=async()=>{
+    if(!confirm("Iniciar novo mês de crédito?\nFatura atual arquivada, próxima fatura vira atual."))return;
+    try{
+      const updated=expenses.filter(e=>!(e.type==="credit"&&e.creditCycle==="closed")).map(e=>e.type==="credit"&&e.creditCycle==="next"?{...e,creditCycle:"current"}:e);
+      const db=await loadCloud();
+      await saveCloud({...db,users:{...db.users,[user]:{...db.users[user],expenses:updated,creditClosedAt:null}}});
+      setExpenses(updated);setCreditClosedAt(null);flash("✅ Novo ciclo de crédito!");
+    }catch{flash("⚠️ Erro.")}
+  };
+
+  const newDebitCycle=async()=>{
+    if(!confirm("Novo ciclo de débito?\nGastos de débito serão apagados."))return;
+    try{
+      const now=new Date().toISOString();
+      const updated=expenses.filter(e=>e.type!=="debit");
+      const db=await loadCloud();
+      await saveCloud({...db,users:{...db.users,[user]:{...db.users[user],expenses:updated,cycleStart:now}}});
+      setExpenses(updated);setCycleStart(now);flash("✅ Novo ciclo de débito!");
+    }catch{flash("⚠️ Erro.")}
+  };
+
+  // ── Computed ──────────────────────────────────────────────────────────────
+  const debitExp=expenses.filter(e=>e.type==="debit");
+  const creditCurExp=expenses.filter(e=>e.type==="credit"&&(e.creditCycle==="current"||e.creditCycle==="closed"));
+  const creditNextExp=expenses.filter(e=>e.type==="credit"&&e.creditCycle==="next");
+  const totalDebit=debitExp.reduce((s,e)=>s+e.value,0);
+  const totalCredit=creditCurExp.reduce((s,e)=>s+e.value,0);
+  const totalNext=creditNextExp.reduce((s,e)=>s+e.value,0);
+  const daysSince=cycleStart?Math.floor((Date.now()-new Date(cycleStart))/86400000):0;
+  const activeExp=activeTab==="debit"?debitExp:creditCurExp;
+  const activeTotal=activeExp.reduce((s,e)=>s+e.value,0);
+  const byC={};activeExp.forEach(e=>{byC[e.category]=(byC[e.category]||0)+e.value;});
+  const sorted=Object.entries(byC).sort((a,b)=>b[1]-a[1]);
+
+  // ── Style helpers ─────────────────────────────────────────────────────────
+  const cardBg=dark?"#1f2937":"#fff";
+  const shadow="0 2px 14px rgba(0,0,0,.07)";
+  const txt=dark?"#f9fafb":"#1f2937";
+  const muted=dark?"#9ca3af":"#6b7280";
+  const inp={width:"100%",padding:"12px 14px",border:"2px solid "+(dark?"#374151":"#e5e7eb"),borderRadius:12,background:dark?"#374151":"#fff",color:txt,fontSize:15,outline:"none",fontFamily:"inherit"};
+  const card={background:cardBg,borderRadius:16,padding:18,boxShadow:shadow,marginBottom:14};
+  const btnP={background:"#4f46e5",color:"#fff",border:"none",borderRadius:12,padding:"13px 16px",fontSize:15,fontWeight:600,cursor:"pointer",width:"100%"};
+  const ghost={background:dark?"#374151":"#f3f4f6",color:dark?"#d1d5db":"#374151",border:"none",borderRadius:8,padding:"8px 12px",fontSize:13,cursor:"pointer"};
+  const tabBtn=(active,col,bg)=>({flex:1,padding:"9px 0",borderRadius:9,border:"none",fontSize:13,fontWeight:600,cursor:"pointer",background:active?bg:"transparent",color:active?col:(dark?"#9ca3af":"#6b7280"),transition:"all .15s"});
+
+  if(loading&&screen==="login")return h("div",{style:{minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",background:"linear-gradient(135deg,#eff6ff,#eef2ff)"}},
+    h("div",{style:{...card,textAlign:"center",padding:40}},
+      h("div",{className:"spin",style:{width:44,height:44,border:"4px solid #e5e7eb",borderTopColor:"#4f46e5",borderRadius:"50%",margin:"0 auto 12px"}}),
+      h("p",{style:{color:muted}},"Carregando...")
+    )
+  );
+
+  if(screen==="login")return h("div",{style:{minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center",padding:16,background:"linear-gradient(135deg,#eff6ff,#eef2ff)"}},
+    h("div",{style:{...card,maxWidth:420,width:"100%",padding:28}},
+      h("div",{style:{textAlign:"center",marginBottom:20}},
+        h("div",{style:{background:"#4f46e5",borderRadius:14,display:"inline-flex",padding:13,marginBottom:10}},h(Ico,{path:P.dollar,size:32,color:"#fff"})),
+        h("h1",{style:{fontSize:22,fontWeight:700,color:"#1f2937",marginBottom:2}},"Meu Controle"),
+        h("p",{style:{color:"#6b7280",fontSize:12}},"Finanças Compartilhadas")
+      ),
+      ["email","password"].map(type=>h("div",{key:type,style:{marginBottom:11}},
+        h("label",{style:{display:"block",fontSize:13,fontWeight:600,color:"#374151",marginBottom:4}},type==="email"?"E-mail":"Senha"),
+        h("input",{type,value:type==="email"?emailInput:passInput,onChange:ev=>type==="email"?setEmailInput(ev.target.value):setPassInput(ev.target.value),
+          placeholder:type==="email"?"seu@email.com":"Sua senha",style:inp,onKeyDown:ev=>ev.key==="Enter"&&doLogin()})
+      )),
+      msg?h("div",{style:{padding:"9px 13px",borderRadius:8,fontSize:13,marginBottom:9,background:msg.startsWith("✅")?"#f0fdf4":"#fffbeb",color:msg.startsWith("✅")?"#166534":"#92400e"}},msg):null,
+      h("button",{onClick:doLogin,disabled:loading,style:btnP},loading?"Carregando...":"Entrar / Criar Conta"),
+      h("div",{style:{marginTop:11,padding:"10px 13px",borderRadius:9,background:"#eff6ff",fontSize:12,color:"#3730a3"}},
+        h("b",null,"💡 "),"Conta nova criada automaticamente. Use no celular e PC com a mesma conta."
+      )
+    )
+  );
+
+  // ── MAIN ─────────────────────────────────────────────────────────────────
+  return h("div",{style:{position:"relative",minHeight:"100vh",paddingBottom:28}},
+    h("div",{style:{position:"fixed",inset:0,zIndex:-1,...(dark?{background:"#111827"}:{background:"linear-gradient(135deg,#eff6ff,#eef2ff)"})}}),
+    h("div",{style:{maxWidth:680,margin:"0 auto",padding:"13px 10px"}},
+
+      // Header
+      h("div",{style:card},
+        h("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:11}},
+          h("div",{style:{display:"flex",alignItems:"center",gap:9}},
+            h("div",{style:{background:"#4f46e5",borderRadius:10,padding:8,display:"inline-flex"}},h(Ico,{path:P.dollar,size:20,color:"#fff"})),
+            h("div",null,h("h1",{style:{fontSize:17,fontWeight:700,color:txt}},"Meu Controle"),h("p",{style:{fontSize:11,color:muted}},"Olá, "+user.split("@")[0]+" 👋"))
+          ),
+          h("div",{style:{display:"flex",gap:5}},
+            h("button",{onClick:()=>{const nd=!dark;setDark(nd);localStorage.setItem("darkMode",nd);},style:{...ghost,padding:7,borderRadius:8}},h(Ico,{path:dark?P.sun:P.moon,size:15,color:dark?"#fbbf24":"#6b7280"})),
+            h("button",{
+              onClick:()=>generatePDF({user,cycleStart,creditClosedAt,debitExpenses:debitExp,creditCurrentExpenses:creditCurExp,creditNextExpenses:creditNextExp,goalDebit,goalCredit}),
+              style:{...ghost,padding:"7px 11px",display:"flex",alignItems:"center",gap:4,color:"#059669",background:dark?"#064e3b":"#ecfdf5",fontSize:12}},
+              h(Ico,{path:P.pdf,size:14,color:"#059669"}),"PDF"
+            ),
+            h("button",{onClick:logout,style:{background:"#ef4444",color:"#fff",border:"none",borderRadius:7,padding:"7px 11px",fontSize:12,fontWeight:600,cursor:"pointer",display:"flex",alignItems:"center",gap:4}},
+              h(Ico,{path:P.logout,size:13,color:"#fff"}),"Sair"
+            )
+          )
+        ),
+        h("div",{style:{display:"flex",gap:6,flexWrap:"wrap"}},
+          h("div",{style:{display:"flex",alignItems:"center",gap:5,background:dark?"#312e81":"#eef2ff",padding:"6px 10px",borderRadius:7,flex:1,minWidth:130,fontSize:11,color:dark?"#a5b4fc":"#4338ca"}},
+            h(Ico,{path:P.cal,size:12,color:"#6366f1"}),"Débito: "+daysSince+"d · desde "+fmtDate(cycleStart)
+          ),
+          creditClosedAt
+            ?h("div",{style:{display:"flex",alignItems:"center",gap:5,background:dark?"#1e3a5f":"#dbeafe",padding:"6px 10px",borderRadius:7,flex:1,minWidth:130,fontSize:11,color:dark?"#93c5fd":"#1d4ed8"}},
+              h(Ico,{path:P.credit,size:12,color:"#3b82f6"}),"Fatura fechada em "+fmtDate(creditClosedAt))
+            :h("div",{style:{display:"flex",alignItems:"center",gap:5,background:dark?"rgba(6,78,59,.25)":"#ecfdf5",padding:"6px 10px",borderRadius:7,flex:1,minWidth:130,fontSize:11,color:dark?"#6ee7b7":"#047857"}},
+              h(Ico,{path:P.credit,size:12,color:"#10b981"}),"Fatura de crédito aberta")
+        )
+      ),
+
+      // Metas
+      h("div",{style:card},
+        h("div",{style:{display:"flex",alignItems:"center",gap:7,marginBottom:11}},
+          h(Ico,{path:P.target,size:16,color:"#6366f1"}),h("h2",{style:{fontSize:14,fontWeight:700,color:txt}},"Metas de Gasto")
+        ),
+        h(GoalBar,{label:"🏦 Débito",icon:P.debit,total:totalDebit,goal:goalDebit,dark,color:"#3b82f6"}),
+        h(GoalBar,{label:"💳 Crédito (fatura atual)",icon:P.credit,total:totalCredit,goal:goalCredit,dark,color:"#7c3aed"}),
+        h("div",{style:{borderTop:"1px solid "+(dark?"#374151":"#f3f4f6"),paddingTop:10,marginTop:4}},
+          h(GoalEditor,{label:"Débito",icon:P.debit,value:goalDebit,onSave:v=>saveGoal("goalDebit",v),dark}),
+          h(GoalEditor,{label:"Crédito",icon:P.credit,value:goalCredit,onSave:v=>saveGoal("goalCredit",v),dark}),
+          h("p",{style:{fontSize:11,color:muted,marginTop:4}},"ℹ️ Crédito é controle separado — a fatura vira débito no próximo mês")
+        )
+      ),
+
+      // Lançar despesa
+      h("div",{style:card},
+        h("p",{style:{fontSize:14,fontWeight:700,color:txt,marginBottom:9}},"💸 Lançar despesa"),
+        // Toggle débito/crédito
+        h("div",{style:{display:"flex",gap:7,marginBottom:9}},
+          h("button",{onClick:()=>{setExpType("debit");setIsParceled(false);},
+            style:{flex:1,padding:"9px 0",borderRadius:10,border:"2px solid "+(expType==="debit"?"#3b82f6":"transparent"),
+              background:expType==="debit"?(dark?"#1e3a5f":"#dbeafe"):(dark?"#374151":"#f3f4f6"),
+              color:expType==="debit"?(dark?"#93c5fd":"#1d4ed8"):(dark?"#9ca3af":"#6b7280"),fontWeight:600,fontSize:13,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:5}},
+            h(Ico,{path:P.debit,size:14,color:expType==="debit"?"#3b82f6":"#9ca3af"}),"🏦 Débito"),
+          h("button",{onClick:()=>setExpType("credit"),
+            style:{flex:1,padding:"9px 0",borderRadius:10,border:"2px solid "+(expType==="credit"?"#7c3aed":"transparent"),
+              background:expType==="credit"?(dark?"#2e1065":"#ede9fe"):(dark?"#374151":"#f3f4f6"),
+              color:expType==="credit"?(dark?"#c4b5fd":"#6d28d9"):(dark?"#9ca3af":"#6b7280"),fontWeight:600,fontSize:13,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:5}},
+            h(Ico,{path:P.credit,size:14,color:expType==="credit"?"#7c3aed":"#9ca3af"}),
+            creditClosedAt&&expType==="credit"?"💳 Próx. fatura":"💳 Crédito")
+        ),
+
+        // Parcelas (só crédito)
+        expType==="credit"?h("div",{style:{marginBottom:9}},
+          h("label",{style:{display:"flex",alignItems:"center",gap:7,cursor:"pointer",marginBottom:isParceled?8:0}},
+            h("input",{type:"checkbox",checked:isParceled,onChange:ev=>setIsParceled(ev.target.checked),style:{width:15,height:15,accentColor:"#7c3aed"}}),
+            h("span",{style:{fontSize:13,color:txt}},"Compra parcelada")
+          ),
+          isParceled?h("div",{style:{display:"flex",alignItems:"center",gap:8,background:dark?"#2e1065":"#ede9fe",borderRadius:9,padding:"8px 12px"}},
+            h("span",{style:{fontSize:13,color:dark?"#c4b5fd":"#6d28d9",fontWeight:600}},"Parcela"),
+            h("input",{type:"number",min:"1",value:parcelaAtual,onChange:ev=>setParcelaAtual(ev.target.value),
+              style:{width:50,padding:"5px 7px",border:"2px solid "+(dark?"#6d28d9":"#c4b5fd"),borderRadius:7,background:dark?"#1e1b4b":"#fff",color:txt,fontSize:14,outline:"none",textAlign:"center"}}),
+            h("span",{style:{fontSize:14,color:dark?"#c4b5fd":"#6d28d9",fontWeight:700}},"de"),
+            h("input",{type:"number",min:"1",value:parcelaTotal,onChange:ev=>setParcelaTotal(ev.target.value),
+              style:{width:50,padding:"5px 7px",border:"2px solid "+(dark?"#6d28d9":"#c4b5fd"),borderRadius:7,background:dark?"#1e1b4b":"#fff",color:txt,fontSize:14,outline:"none",textAlign:"center"}}),
+            h("span",{style:{fontSize:11,color:dark?"#a5b4fc":"#4f46e5"}},parcelaAtual+"/"+parcelaTotal)
+          ):null
+        ):null,
+
+        expType==="credit"&&creditClosedAt?h("div",{style:{background:dark?"rgba(139,92,246,.12)":"#ede9fe",border:"1px solid #8b5cf6",borderRadius:8,padding:"6px 10px",marginBottom:8,fontSize:12,color:dark?"#c4b5fd":"#6d28d9"}},
+          "⚠️ Fatura fechada — lançamento entrará na próxima fatura"
+        ):null,
+
+        h("input",{type:"text",value:input,onChange:ev=>setInput(ev.target.value),onKeyDown:ev=>ev.key==="Enter"&&addExpense(),
+          placeholder:"Ex: mercado 45  ou  ifood 35,50",style:{...inp,marginBottom:8}}),
+
+        h("div",{style:{display:"flex",alignItems:"center",gap:7,marginBottom:8,flexWrap:"wrap"}},
+          h("button",{onClick:()=>setShowDatePicker(d=>!d),style:{...ghost,display:"flex",alignItems:"center",gap:4,fontSize:12}},
+            h(Ico,{path:P.clock,size:12,color:muted}),dateInput?"📅 "+fmtDate(new Date(dateInput).toISOString()):"+ Data passada"),
+          dateInput?h("button",{onClick:()=>{setDateInput("");setShowDatePicker(false);},style:{color:"#ef4444",background:"none",border:"none",cursor:"pointer",fontSize:12}},"✕"):null
+        ),
+        showDatePicker?h("input",{type:"date",value:dateInput,onChange:ev=>setDateInput(ev.target.value),max:new Date().toISOString().split("T")[0],style:{...inp,marginBottom:8}}):null,
+        msg?h("div",{style:{padding:"8px 12px",borderRadius:8,fontSize:13,marginBottom:8,background:msg.startsWith("✅")?"#f0fdf4":"#fffbeb",color:msg.startsWith("✅")?"#166534":"#92400e"}},msg):null,
+        h("button",{onClick:addExpense,style:btnP},"Adicionar Despesa")
+      ),
+
+      // Totais
+      expenses.length>0?h("div",{style:{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8,marginBottom:13}},
+        [{label:"Débito",val:fmtR(totalDebit),color:"#3b82f6",sub:daysSince+"d"},
+         {label:"Fatura atual",val:fmtR(totalCredit),color:"#7c3aed",sub:creditClosedAt?"Fechada":"Aberta"},
+         {label:"Próx. fatura",val:fmtR(totalNext),color:"#8b5cf6",sub:creditNextExp.length+" itens"},
+        ].map(({label,val,color,sub})=>
+          h("div",{key:label,style:{background:cardBg,borderRadius:11,padding:"11px 7px",boxShadow:shadow,textAlign:"center"}},
+            h("p",{style:{fontSize:13,fontWeight:700,color,marginBottom:1}},val),
+            h("p",{style:{fontSize:10,color:muted,marginBottom:1}},label),
+            h("p",{style:{fontSize:9,color:muted}},sub)
+          )
+        )
+      ):null,
+
+      // Próxima fatura preview
+      creditNextExp.length>0?h("div",{style:{...card,border:"2px solid #8b5cf6",marginBottom:13}},
+        h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:7}},
+          h("div",{style:{display:"flex",alignItems:"center",gap:5}},
+            h(Ico,{path:P.layers,size:14,color:"#8b5cf6"}),
+            h("span",{style:{fontWeight:700,fontSize:13,color:dark?"#c4b5fd":"#6d28d9"}},"Próxima Fatura")
+          ),
+          h("span",{style:{fontWeight:700,fontSize:14,color:"#8b5cf6"}},fmtR(totalNext))
+        ),
+        creditNextExp.slice(0,3).map(e=>{
+          const par=e.parcela?" ("+e.parcela.atual+"/"+e.parcela.total+")":"";
+          return h("div",{key:e.id,style:{display:"flex",justifyContent:"space-between",padding:"4px 0",borderBottom:"1px solid "+(dark?"#374151":"#f3f4f6"),fontSize:12}},
+            h("span",{style:{color:txt,textTransform:"capitalize"}},e.category+par),
+            h("span",{style:{color:"#8b5cf6",fontWeight:600}},fmtR(e.value))
+          );
+        }),
+        creditNextExp.length>3?h("p",{style:{fontSize:11,color:muted,marginTop:5,textAlign:"center"}},"+"+(creditNextExp.length-3)+" mais"):null
+      ):null,
+
+      // Controles de ciclo
+      h("div",{style:{display:"flex",gap:7,marginBottom:13,flexWrap:"wrap"}},
+        h("button",{onClick:newDebitCycle,style:{flex:1,minWidth:120,background:"#f97316",color:"#fff",border:"none",borderRadius:9,padding:"8px 11px",fontSize:12,fontWeight:600,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:4}},
+          h(Ico,{path:P.reset,size:13,color:"#fff"}),"Novo ciclo débito"),
+        creditClosedAt
+          ?h("div",{style:{display:"flex",gap:7,flex:2,flexWrap:"wrap"}},
+            h("button",{onClick:openNextCreditCycle,style:{flex:1,minWidth:110,background:"#7c3aed",color:"#fff",border:"none",borderRadius:9,padding:"8px 11px",fontSize:12,fontWeight:600,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:4}},
+              h(Ico,{path:P.check,size:13,color:"#fff"}),"Abrir próx. fatura"),
+            h("button",{onClick:reopenCreditCycle,style:{flex:1,minWidth:110,background:"#0891b2",color:"#fff",border:"none",borderRadius:9,padding:"8px 11px",fontSize:12,fontWeight:600,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:4}},
+              h(Ico,{path:P.reset,size:13,color:"#fff"}),"Reabrir fatura")
+          )
+          :h("button",{onClick:closeCreditCycle,style:{flex:1,minWidth:120,background:"#6d28d9",color:"#fff",border:"none",borderRadius:9,padding:"8px 11px",fontSize:12,fontWeight:600,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:4}},
+            h(Ico,{path:P.xcircle,size:13,color:"#fff"}),"Fechar fatura crédito")
+      ),
+
+      // Abas + lista
+      expenses.length>0?h("div",null,
+        h("div",{style:{display:"flex",gap:0,marginBottom:13,background:dark?"#374151":"#f3f4f6",borderRadius:12,padding:3}},
+          h("button",{onClick:()=>setActiveTab("debit"),style:tabBtn(activeTab==="debit",dark?"#93c5fd":"#1d4ed8",dark?"#1e3a5f":"#dbeafe")},
+            "🏦 Débito  "+fmtR(totalDebit)),
+          h("button",{onClick:()=>setActiveTab("credit"),style:tabBtn(activeTab==="credit",dark?"#c4b5fd":"#6d28d9",dark?"#2e1065":"#ede9fe")},
+            "💳 Crédito  "+fmtR(totalCredit))
+        ),
+
+        sorted.length>0?h("div",{style:card},
+          h("div",{style:{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:11}},
+            h("h2",{style:{fontSize:13,fontWeight:700,color:txt}},"Por Categoria"),
+            h("span",{style:{fontSize:13,fontWeight:700,color:activeTab==="debit"?"#3b82f6":"#7c3aed"}},fmtR(activeTotal))
+          ),
+          sorted.map(([cat,val])=>{
+            const pct=activeTotal>0?(val/activeTotal)*100:0;
+            const bc=activeTab==="debit"?"#3b82f6":"#7c3aed";
+            return h("div",{key:cat,style:{marginBottom:10}},
+              h("div",{style:{display:"flex",justifyContent:"space-between",marginBottom:3}},
+                h("span",{style:{fontWeight:600,color:txt,textTransform:"capitalize",fontSize:13}},cat),
+                h("span",{style:{fontWeight:700,color:txt,fontSize:13}},fmtR(val))
+              ),
+              h("div",{style:{background:dark?"#374151":"#e5e7eb",borderRadius:999,height:8}},
+                h("div",{className:"bar",style:{width:pct+"%",height:"100%",background:bc,borderRadius:999}})
+              ),
+              h("p",{style:{fontSize:10,color:muted,textAlign:"right",marginTop:1}},pct.toFixed(1)+"%")
+            );
+          })
+        ):null,
+
+        h("div",{style:card},
+          h("h2",{style:{fontSize:13,fontWeight:700,color:txt,marginBottom:11}},"Lançamentos"),
+          activeExp.length===0
+            ?h("p",{style:{textAlign:"center",color:muted,padding:18,fontSize:13}},"Sem lançamentos nesta aba")
+            :h("div",{style:{maxHeight:400,overflowY:"auto",display:"flex",flexDirection:"column",gap:5}},
+              [...activeExp].sort((a,b)=>new Date(b.date)-new Date(a.date)).map(ex=>{
+                const par=ex.parcela?" ("+ex.parcela.atual+"/"+ex.parcela.total+")":"";
+                const isClosed=ex.creditCycle==="closed";
+                const tagColor=activeTab==="credit"?(isClosed?"#6d28d9":"#7c3aed"):"#3b82f6";
+                const tagLabel=activeTab==="credit"?(isClosed?"Fechado":"Crédito"):"Débito";
+                return h("div",{key:ex.id,style:{display:"flex",alignItems:"center",gap:7,padding:"9px 11px",background:dark?"#374151":"#f9fafb",borderRadius:10}},
+                  h("div",{style:{flex:1,minWidth:0}},
+                    h("div",{style:{display:"flex",alignItems:"center",gap:5,flexWrap:"wrap"}},
+                      h("span",{style:{fontWeight:600,color:txt,textTransform:"capitalize",fontSize:13}},ex.category+par),
+                      h("span",{style:{fontSize:9,fontWeight:700,color:"#fff",background:tagColor,borderRadius:4,padding:"2px 5px",whiteSpace:"nowrap"}},tagLabel)
+                    ),
+                    h("p",{style:{fontSize:10,color:muted,marginTop:1}},fmtDate(ex.date)+" · "+ex.user.split("@")[0])
+                  ),
+                  h("div",{style:{display:"flex",alignItems:"center",gap:6,flexShrink:0}},
+                    h("span",{style:{fontWeight:700,color:"#ef4444",fontSize:14}},fmtR(ex.value)),
+                    h("button",{onClick:()=>deleteExpense(ex.id),style:{background:"none",border:"none",cursor:"pointer",padding:4,borderRadius:5}},
+                      h(Ico,{path:P.trash,size:13,color:"#ef4444"}))
+                  )
+                );
+              })
+            )
+        )
+      ):h("div",{style:{...card,textAlign:"center",padding:36}},
+        h(Ico,{path:P.dollar,size:40,color:muted}),
+        h("h3",{style:{fontSize:15,fontWeight:600,color:muted,marginTop:10}},"Nenhum lançamento"),
+        h("p",{style:{fontSize:12,color:muted,marginTop:3}},'Ex: "mercado 45" ou "ifood 32,50"')
+      )
+    )
+  );
+}
+
+const root=ReactDOM.createRoot(document.getElementById("root"));
+root.render(h(App,null));
+
+</script>
+</body>
+</html>
